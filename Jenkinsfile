@@ -37,6 +37,8 @@ pipeline {
         stage('DeployToStage') {
             when {
                 branch 'master'
+            }
+            steps {
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', usernameVariable: 'USERNAME', passwordVariable: 'USERPASS')]) {
                     script {
                         sh "sshpass -p '$USERPASS' -v ssh -o StrictHostKeyChecking=no $USERNAME@$stage_ip \"docker pull bones10/train-schedule:${env.BUILD_NUMBER}\""
